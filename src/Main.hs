@@ -14,11 +14,16 @@ main = do
 toBuildAHomeIntro :: Music Pitch
 toBuildAHomeIntro =
   let dur = wn
-      dMajor = majorTriadMidUp (D, 4) dur
-      aMajor = majorTriadMidUp (A, 3) dur
-      eSecond = secondTriadMidUp (E, 3) (dur/8)
-      eMajor = majorTriadMidUp (E, 3) dur
-  in  line [dMajor, aMajor, eSecond, eMajor]
+      dMajor  = mkChord (D, 4) dur [0,12+4,7]
+      aMajor  = mkChord (A, 3) dur [0,12+4,7]
+      eSecond = mkChord (E, 3) (dur/8) [0,12+2,7]
+      eMajor  = mkChord (E, 3) dur [0,12+4,7]
+      bMinor  = mkChord (B, 2) dur [0,12+3,7]
+      dSecond = mkChord (D, 3) dur [0,12+2,7]
+  in  line [ dMajor, aMajor, eSecond, eMajor
+           , rest (dur/4)
+           , bMinor, dSecond, aMajor, eMajor
+           ]
 
 t251 :: Music Pitch
 t251 = let dMinor = d 4 wn :=: f 4 wn :=: a 4 wn
@@ -28,30 +33,13 @@ t251 = let dMinor = d 4 wn :=: f 4 wn :=: a 4 wn
 
 twoFiveOne :: Pitch -> Dur -> Music Pitch
 twoFiveOne p d =
-  let chord_ii = minorTriad p d
-      chord_V  = majorTriad (trans 5 p) d
-      chord_I  = majorTriad (trans (-2) p) (2*d)
+  let chord_ii = mkChord p d [0,3,7]
+      chord_V  = mkChord (trans 5 p) d [0,4,7]
+      chord_I  = mkChord (trans (-2) p) (2*d) [0,4,7]
   in  chord_ii :+: chord_V :+: chord_I
 
-secondTriadMidUp :: Pitch -> Dur -> Music Pitch
-secondTriadMidUp p d = note d p
-                   :=: note d (trans (12+2) p)
-                   :=: note d (trans 7 p)
-
-majorTriadMidUp :: Pitch -> Dur -> Music Pitch
-majorTriadMidUp p d = note d p
-                  :=: note d (trans (12+4) p)
-                  :=: note d (trans 7 p)
-
-majorTriad :: Pitch -> Dur -> Music Pitch
-majorTriad p d = note d p
-             :=: note d (trans 4 p)
-             :=: note d (trans 7 p)
-
-minorTriad :: Pitch -> Dur -> Music Pitch
-minorTriad p d = note d p
-             :=: note d (trans 3 p)
-             :=: note d (trans 7 p)
+mkChord :: Pitch -> Dur -> [AbsPitch] -> Music Pitch
+mkChord p d aps = chord (map (\ap -> note d (trans ap p)) aps)
 
 answer :: Bool -> String
 answer True = "Yes"
