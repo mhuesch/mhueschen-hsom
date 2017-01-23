@@ -3,6 +3,8 @@ module Main where
 import Euterpea.Music
 import Euterpea.IO.MIDI.Play
 
+import Util
+
 main :: IO ()
 main = do
 --  putStrLn "Is t251 == (twoFiveOne (D, 4) wn) ?"
@@ -40,7 +42,3 @@ twoFiveOne p d =
 
 mkChord :: Pitch -> Dur -> [AbsPitch] -> Music Pitch
 mkChord p d aps = chord (map (\ap -> note d (trans ap p)) aps)
-
-answer :: Bool -> String
-answer True = "Yes"
-answer False = "No"
