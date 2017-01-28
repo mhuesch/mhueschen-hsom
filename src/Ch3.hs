@@ -9,28 +9,6 @@ import Euterpea.IO.MIDI.Play
 
 import Util
 
-mkScale :: Pitch -> [Int] -> Music Pitch
-mkScale p is = line (map (\ap -> note qn (trans ap p)) aps)
-  where
-    aps = scanl (+) 0 is
-
-data MyMode = Ionian
-            | Dorian
-            | Phrygian
-            | Lydian
-            | Mixolydian
-            | Aeolian
-            | Locrian
-  deriving (Show, Enum)
-
-genScale :: MyMode -> Pitch -> Music Pitch
-genScale mode p = mkScale p (modeIntervals mode)
-
-ionianIntervals = [2,2,1,2,2,2,1]
-
-modeIntervals :: MyMode -> [Int]
-modeIntervals mode = rotate (fromEnum mode) ionianIntervals
-
 -- 3.6
 length' :: [a] -> Int
 length' = foldl (\ acc _ -> acc+1) 0
@@ -82,6 +60,43 @@ chrom p1 p2 =
   in  line (map (note qn . pitch) aps)
 
 -- 3.10
+mkScale :: Pitch -> [Int] -> Music Pitch
+mkScale p is = line (map (\ap -> note qn (trans ap p)) aps)
+  where
+    aps = scanl (+) 0 is
+
 -- 3.11
+data MyMode = Ionian
+            | Dorian
+            | Phrygian
+            | Lydian
+            | Mixolydian
+            | Aeolian
+            | Locrian
+  deriving (Show, Enum)
+
+ionianIntervals = [2,2,1,2,2,2,1]
+
+modeIntervals :: MyMode -> [Int]
+modeIntervals mode = rotate (fromEnum mode) ionianIntervals
+
+genScale :: MyMode -> Pitch -> Music Pitch
+genScale mode p = mkScale p (modeIntervals mode)
+
 -- 3.12
+
 -- 3.13
+encrypt :: (Enum a) => [a] -> [a]
+encrypt = map (toEnum . addWrap . fromEnum)
+  where
+    addWrap x = mod (x+1) 256
+
+decrypt :: (Enum a) => [a] -> [a]
+decrypt = map (toEnum . subWrap . fromEnum)
+  where
+    subWrap x = mod (x-1) 256
+
+testEncDec :: Bool
+testEncDec = decrypt (encrypt str) == str
+  where
+    str = map toEnum [0..255] :: String
