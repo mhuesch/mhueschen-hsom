@@ -114,7 +114,7 @@ melody p = zoork $ concat [p0, p0, p1, p1, p2, p2, p3, p3]
 
 -- play with `play $ frereJacqueRound (C, 4)`
 frereJacqueRound :: Pitch -> Music Pitch
-frereJacqueRound p = chord (zipWith modder instruments [0..])
+frereJacqueRound p = chord (zipWith modder instruments [0,2..])
   where
     modder iName delayBeats =
       Modify (Instrument iName)
