@@ -84,6 +84,46 @@ genScale :: MyMode -> Pitch -> Music Pitch
 genScale mode p = mkScale p (modeIntervals mode)
 
 -- 3.12
+-- Frere Jacques
+melody :: Pitch -> Music Pitch
+melody p = zoork $ concat [p0, p0, p1, p1, p2, p2, p3, p3]
+  where
+    ap = absPitch p
+    apRelNote d rel = note d (pitch (ap + rel))
+    zoork = line . map (uncurry apRelNote)
+    p0 = [ (qn, 0)
+         , (qn, 2)
+         , (qn, 4)
+         , (qn, 0)
+         ]
+    p1 = [ (qn, 4)
+         , (qn, 5)
+         , (hn, 7)
+         ]
+    p2 = [ (den, 7)
+         , (sn, 9)
+         , (en, 7)
+         , (en, 5)
+         , (qn, 4)
+         , (qn, 0)
+         ]
+    p3 = [ (qn, 0)
+         , (qn, (-5))
+         , (hn, 0)
+         ]
+
+frereJacqueRound :: Pitch -> Music Pitch
+frereJacqueRound p = chord (zipWith modder instruments [0..])
+  where
+    modder iName delayBeats =
+      Modify (Instrument iName)
+        (rest delayBeats :+: melody p)
+    instruments = [ AcousticGrandPiano
+                  , RockOrgan
+                  , Violin
+                  , SlapBass1
+                  ] :: [InstrumentName]
+
 
 -- 3.13
 encrypt :: (Enum a) => [a] -> [a]
