@@ -117,7 +117,7 @@ frereJacqueRound :: Pitch -> Music Pitch
 frereJacqueRound p = chord (zipWith modder instruments [0,2..])
   where
     modder iName delayBeats =
-      Modify (Instrument iName)
+      instrument iName
         (rest delayBeats :+: melody p)
     instruments = [ AcousticGrandPiano
                   , RockOrgan
