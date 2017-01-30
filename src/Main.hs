@@ -39,6 +39,3 @@ twoFiveOne p d =
       chord_V  = mkChord (trans 5 p) d [0,4,7]
       chord_I  = mkChord (trans (-2) p) (2*d) [0,4,7]
   in  chord_ii :+: chord_V :+: chord_I
-
-mkChord :: Pitch -> Dur -> [AbsPitch] -> Music Pitch
-mkChord p d aps = chord (map (\ap -> note d (trans ap p)) aps)
