@@ -41,7 +41,7 @@ r0 = line [ -- enr
           , scaleRange en [39,38,37,36,35,34]
           , daScale (2 * dqn) 33
           , scaleRange en [40,39,38,37,36,35]
-          -- measures 18-0
+          -- measures 18-20
           , (daScale ((2 * dqn) + qn) 34)
             :+: enr
           ]
@@ -62,11 +62,11 @@ l0 = line [ -- [ enr, g 3 en, d 3 en ]
           , dqnr
           , dqnr
           -- 14-17
-          , sevenNoteScale 27
-          , daScale (dqn * 2) 20
+          , sevenNoteScale 29
+          , daScale (dqn * 2) 22
           -- 18-20
-          , sevenNoteScale 23
-          , daScale qn 16
+          , sevenNoteScale 25
+          , daScale qn 18
           , enr
           ]
 
