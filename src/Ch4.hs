@@ -10,6 +10,10 @@ summer = tempo ((en/qn) * (69/120))
                (l0 :=: r0)
 
 
+-- TODO figure out a way to ensure that passages have the same numbers
+-- of beats. Die if not. This would help avoid errors where separate parts
+-- get off by a few beats.
+
 r0 :: Music Pitch
 r0 = line [ -- enr
           --  , mkChord (D,5) en [0,5,8]
