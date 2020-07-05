@@ -18,4 +18,4 @@ executable mhueschen-hsom
   main-is:             Main.hs
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
-                     , Euterpea == 2.0.2
+                     , Euterpea >= 2
